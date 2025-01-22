@@ -811,6 +811,12 @@ require("lazy").setup({
       local luasnip = require "luasnip"
       luasnip.config.setup {}
 
+      cmp.setup.filetype({ "sql" }, {
+        sources = {
+          { name = "vim-dadbod-completion" },
+          { name = "buffer" },
+        },
+      })
       cmp.setup {
         snippet = {
           expand = function(args) luasnip.lsp_expand(args.body) end,
@@ -939,7 +945,7 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     opts = {
-      ensure_installed = { "bash", "c", "diff", "html", "lua", "luadoc", "markdown", "vim", "vimdoc" },
+      ensure_installed = { "bash", "c", "diff", "html", "lua", "luadoc", "markdown", "vim", "vimdoc", "sql" },
       -- Autoinstall languages that are not installed
       auto_install = false,
       highlight = {
@@ -981,11 +987,12 @@ require("lazy").setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
+  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   require "kickstart.plugins.neo-tree",
   require "custom.plugins.vim-visual-multi",
-
+  require "custom.plugins.dadbod",
+  --Windows machien plugins
   --require "custom.plugins.omnisharp",
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.

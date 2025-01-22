@@ -662,7 +662,7 @@ require("lazy").setup({
             },
             typescript = {
               -- Global install of typescript
-              tsdk = "C:\\Users\\vojin.puric\\AppData\\Roaming\\npm\\node_modules\\typescript\\lib",
+              tsdk = "/usr/local/lib/node_modules/typescript",
 
               -- tsdk = '~/.nvm/versions/node/v18.20.3/lib/node_modules/typescript',
             },
@@ -983,7 +983,8 @@ require("lazy").setup({
   -- require 'kickstart.plugins.autopairs',
   require "kickstart.plugins.neo-tree",
   require "custom.plugins.vim-visual-multi",
-  require "custom.plugins.omnisharp",
+
+  --require "custom.plugins.omnisharp",
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`

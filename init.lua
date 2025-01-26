@@ -180,7 +180,7 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
+vim.keymap.set("n", "<leader>E", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
@@ -457,6 +457,7 @@ require("lazy").setup({
         function() builtin.find_files { cwd = vim.fn.stdpath "config" } end,
         { desc = "[S]earch [N]eovim files" }
       )
+      vim.keymap.set("n", "<leader>ns", ":source $MYVIMRC<CR>")
     end,
   },
 
@@ -643,6 +644,8 @@ require("lazy").setup({
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+      local data_path = vim.fn.stdpath "data"
+      local location = data_path .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
       local servers = {
         -- clangd = {},
         gopls = {},
@@ -660,9 +663,11 @@ require("lazy").setup({
             vue = {
               hybridMode = false,
             },
-            typescript = {
+            plugins = {
               -- Global install of typescript
-              tsdk = "C:\\Users\\vojin.puric\\AppData\\Roaming\\npm\\node_modules\\typescript\\lib",
+              name = "@vue/typescript-plugin",
+              location = location,
+              languages = { "javascript", "typescript", "vue" },
 
               -- tsdk = '~/.nvm/versions/node/v18.20.3/lib/node_modules/typescript',
             },
@@ -811,6 +816,12 @@ require("lazy").setup({
       local luasnip = require "luasnip"
       luasnip.config.setup {}
 
+      cmp.setup.filetype({ "sql" }, {
+        sources = {
+          { name = "vim-dadbod-completion" },
+          { name = "buffer" },
+        },
+      })
       cmp.setup {
         snippet = {
           expand = function(args) luasnip.lsp_expand(args.body) end,
@@ -939,7 +950,7 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     opts = {
-      ensure_installed = { "bash", "c", "diff", "html", "lua", "luadoc", "markdown", "vim", "vimdoc" },
+      ensure_installed = { "bash", "c", "diff", "html", "lua", "luadoc", "markdown", "vim", "vimdoc", "sql" },
       -- Autoinstall languages that are not installed
       auto_install = false,
       highlight = {
@@ -981,10 +992,12 @@ require("lazy").setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
+  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   require "kickstart.plugins.neo-tree",
   require "custom.plugins.vim-visual-multi",
-  require "custom.plugins.omnisharp",
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require "custom.plugins.dadbod",
+  --Windows machien plugins
+  --require "custom.plugins.omnisharp",
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.

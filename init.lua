@@ -484,7 +484,7 @@ require("lazy").setup({
       { "williamboman/mason.nvim", opts = {} },
       "williamboman/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
-
+      { "Hoffs/omnisharp-extended-lsp.nvim", lazy = true },
       -- Useful status updates for LSP.
       { "j-hui/fidget.nvim", opts = {} },
 
@@ -648,6 +648,12 @@ require("lazy").setup({
       local location = data_path .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
       local servers = {
         -- clangd = {},
+        omnisharp = {
+          root_dir = require("lspconfig").util.root_pattern "*.sln",
+          handlers = {
+            ["textDocument/definition"] = require("omnisharp_extended").handler,
+          },
+        },
         gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
@@ -660,9 +666,6 @@ require("lazy").setup({
         volar = {
           filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
           init_options = {
-            vue = {
-              hybridMode = false,
-            },
             plugins = {
               -- Global install of typescript
               name = "@vue/typescript-plugin",
@@ -997,7 +1000,7 @@ require("lazy").setup({
   require "custom.plugins.vim-visual-multi",
   require "custom.plugins.dadbod",
   --Windows machien plugins
-  --require "custom.plugins.omnisharp",
+  require "custom.plugins.omnisharp",
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.

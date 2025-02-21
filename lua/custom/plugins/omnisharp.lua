@@ -1,3 +1,4 @@
 return {
-  "OmniSharp/omnisharp-vim",
+  "Hoffs/omnisharp-extended-lsp.nvim",
 }
+

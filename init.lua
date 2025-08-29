@@ -19,7 +19,7 @@
 ========                                                     ========
 =====================================================================
 =====================================================================
-
+-- 
 What is Kickstart?
 
   Kickstart.nvim is *not* a distribution.
@@ -742,7 +742,17 @@ require("lazy").setup({
         --     'vue',
         --   },
         -- },
-
+        eslint = {
+          cmd = { "vscode-eslint-language-server", "--stdio" },
+          filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+          on_attach = function(client)
+          if client.name == "eslint" then
+            client.server_capabilities.documentFormattingProvider = true
+          elseif client.name == "tsserver" then
+            client.server_capabilities.documentFormattingProvider = false
+          end
+        end,
+      },
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
